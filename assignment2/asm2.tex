@@ -377,10 +377,52 @@ The MLE of $\theta$ is the value of $\theta$ that maximizes $f(x; \theta)$ for t
     At $m>2$, $Var(\hat{s_1}) = \frac{2}{m+1} < \frac{m}{3} = Var(\tilde{s_1})$. \\
     $\therefore$ $\hat{s_1}$ is more efficient than $\tilde{s_1}$ for $m>2$. Otherwise, they are equally efficient. 
 
-    \item
-    The asymptotic distribution of MLE of both $s_1$ and $s_2$ are:
+    \item For $\hat{s_1}$, the asymptotic distribution of $\hat{s_1}$ is:
     \[
-    \hat{s_1} \sim N\left( s_1, \frac{2}{m+1} \right) \quad \text{and} \quad \hat{s_2} \sim N\left( s_2, \frac{m}{3} \right) \text{ as } m \to \infty
+    I(\hat{s_1}) = \frac{1}{m} I_m(s_1)
+    \]
+    \[
+    = \frac{1}{m} E \left[ \left( \frac{d \ell(s_1)}{d s_1} \right)^2 \right]
+    = \frac{1}{m} E \left[ \left( \sum_{i=1}^{m} \frac{i}{m(m+1)} (x_i - s_1) \right)^2 \right]
+    \]
+    \[
+    = \frac{1}{m} E \left[ \left( \frac{2}{m(m+1)} \sum_{i=1}^{m} i (x_i - s_1) \right)^2 \right]
+    \]
+    \[
+    = \frac{1}{m^3} \left[ \text{Var} \left( \sum_{i=1}^{m} i (x_i - s_1) \right) + E \left( \sum_{i=1}^{m} i (x_i - s_1) \right)^2 \right]
+    \]
+    \[
+    = \frac{1}{m^3} \left[ \sum_{i=1}^{m} i^2 \text{Var}(x_i) + \sum_{i=1}^{m} i^2 E(x_i) E(x_i - s_1)^2 \right]
+    \]
+    \[
+    = \frac{1}{m^3} \left[ \sum_{i=1}^{m} i^2 \frac{m}{i} + \sum_{i=1}^{m} i^2 E(x_i) \right]
+    \]
+    \[
+    = \frac{\sum_{i=1}^{m} i}{m(m+1)} + o
+    = \frac{m+1}{2m}
+    \]
+    Hence,
+    \[
+    \hat{s_1} \xrightarrow{d} N \left( s_1, \frac{2}{m+1} \right)
+    \]
+
+    Similarly,
+    \[
+    I_n(\hat{s_2}) = \frac{1}{m} I_m(s_2)
+    \]
+    \[
+    = \frac{1}{m} E \left[ \left( \sum_{i=m+1}^{2m} \frac{i}{m(m+1)} (x_i - s_2) \right)^2 \right]
+    \]
+    \[
+    = \frac{1}{m^3} \sum_{i=m+1}^{2m} i^2 \left( \text{Var}(x_i) + E(x_i) E(x_i - s_2)^2 \right)
+    \]
+    \[
+    = \frac{1}{m^3} \left[ \sum_{i=m+1}^{2m} i^2 \frac{m}{i} \right]
+    = \frac{3m+1}{2m}
+    \]
+    Hence,
+    \[
+    \hat{s_2} \xrightarrow{d} N \left( s_2, \frac{3m+1}{2m} \right)
     \]
 
     \item As $m \to \infty$,
