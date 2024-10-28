@@ -256,19 +256,31 @@ The MLE of $\theta$ is the value of $\theta$ that maximizes $f(x; \theta)$ for t
     \]
 
     \item The variance of $\bar{X}$ and $\frac{n}{n-1} S^2$ are:
-    \begin{align*}
-    Var(\bar{X}) &= Var(\frac{1}{n} \sum_{i=1}^n X_i) = \frac{1}{n^2} \sum_{i=1}^n Var(X_i) = \frac{1}{n^2} \cdot n \lambda = \frac{\lambda}{n} \\
-    Var\left( \frac{n}{n-1} S^2 \right) &= \frac{n^2}{(n-1)^2} Var(S^2) = \frac{n^2}{(n-1)^2} Var(\frac{1}{n} \sum_{i=1}^n (X_i - \bar{X})^2) \\
-    &= \frac{n^2}{(n-1)^2} \frac{1}{n^2} \sum_{i=1}^n Var(X_i - \bar{X}) \\
-    &= \frac{1}{(n-1)^2} \sum_{i=1}^n Var(X_i - \bar{X}) = \frac{1}{(n-1)^2} \sum_{i=1}^n Var(X_i - \frac{X_1 + \dots + X_n}{n}) \\
-    &= \frac{1}{(n-1)^2} \sum_{i=1}^n Var(\frac{n-1}{n} X_i - \sum_{j \neq i} \frac{1}{n} X_j) \\
-    &= \frac{1}{(n-1)^2} \sum_{i=1}^n \left( \left( \frac{n-1}{n} \right)^2 Var(X_i) + \left( \frac{1}{n} \right)^2 \sum_{j \neq i} Var(X_j) \right) \\
-    &= \frac{1}{(n-1)^2} \left( \left( \frac{n-1}{n} \right)^2 n \lambda + \left( \frac{1}{n} \right)^2 (n)(n-1) \lambda \right) \\
-    &= \frac{1}{n} \lambda + \frac{n-1}{n} \lambda = \lambda
-    \end{align*}
-    Since $Var(\bar{X}) < Var\left( \frac{n}{n-1} S^2 \right)$, $\bar{X}$ is more efficient than $\frac{n}{n-1} S^2$. \\
-    $\because \bar{X}$ also achieves the Cramer-Rao Lower Bound. \\
-    $\therefore \bar{X}$ should be preferred as an estimator of $\lambda$.
+
+    \[
+    \text{Var}(\bar{X}) = \frac{\lambda}{n} \quad \text{(since } \bar{X} \text{ is the UMVUE of } \lambda \text{)}
+    \]
+    \[
+    \text{Var}\left(\frac{n}{n-1} S^2 \right) = \left(\frac{n}{n-1}\right)^2 \left( \frac{\lambda}{n} + \frac{2\lambda^2}{n(n-1)} \right)
+    \]
+    \[
+    \text{eff}\left(\bar{X}, \frac{n}{n-1} S^2\right) = \frac{\text{Var}\left( \frac{n}{n-1} S^2 \right)}{\text{Var}(\bar{X})}
+    \]
+    \[
+    = \frac{\left(\frac{n}{n-1}\right)^2 \left( \frac{\lambda}{n} + \frac{2\lambda^2}{n(n-1)} \right)}{\frac{\lambda}{n}}
+    \]
+    \[
+    = \left(\frac{n}{n-1}\right)^2 \left( 1 + \frac{2\lambda}{n-1} \right)
+    \]
+    \[
+    = \frac{n^3}{(n-1)^2} \left( 1 + \frac{2\lambda}{n-1} \right) > 1
+    \]
+    \[
+    \therefore \bar{X} \text{ is relatively more efficient than } \frac{n}{n-1} S^2, \text{ having a smaller variance.}
+    \]
+    \[
+    \therefore \bar{X} \text{ should be preferred.}
+    \]
     \end{enumerate}
 
 % Answer to Question 7
