@@ -1,0 +1,228 @@
+\documentclass{article}
+\usepackage{amssymb, amsthm, enumitem, microtype}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in,top=0.6in,bottom=0.6in]{geometry}
+\usepackage[fleqn]{amsmath}
+
+% For syntax highlighting
+\usepackage{minted}
+% Install: pip install Pygments
+% Add "-shell-escape", to vscode:
+% Open settings, search for "latex-workshop.latex.tools", click "Edit in settings.json", add "-shell-escape" to the pdflatex command.
+
+% For displaying accurate time
+\usepackage{datetime}
+
+\title{STAT2602 Assignment 3}
+\author{Cheng Ho Ming, Eric (3036216734) [Section 1A, 2024]}
+\date{\today \ \currenttime}
+
+\begin{document}
+\maketitle
+
+\section*{Q1}
+
+\subsection*{(a)}
+
+Since \( X_i \sim \text{Poisson}(\lambda) \), we have \( \mathbb{E}(X_i) = \lambda \) and \( \text{Var}(X_i) = \lambda \). \\
+For large \( n \), by the Central Limit Theorem, the sample mean \( \overline{X} = \frac{1}{n}\sum_{i=1}^n X_i \) is approximately normally distributed:
+\[
+\overline{X} \sim N\left(\lambda, \frac{\lambda}{n}\right)
+\]
+By standardizing, we obtain the pivotal quantity:
+\[
+Z = \frac{\overline{X} - \lambda}{\sqrt{\frac{\lambda}{n}}} \sim N(0,1)
+\]
+which its distribution does not depend on the unknown parameter \( \lambda \).
+
+\subsection*{(b)}
+
+From (a), we have:
+\[
+Z = \frac{\overline{X} - \lambda}{\sqrt{\frac{\lambda}{n}}} \sim N(0,1)
+\]
+Since $\overline{X}$ is an consistent estimator of $\lambda$ (which $\overline{X} \rightarrow_p \lambda$ for large $n$), by the Slutsky's theorem,
+\[
+\frac{\overline{X} - \lambda}{\sqrt{\frac{\bar{X}}{n}}} \rightarrow_d Z \sim N(0,1)
+\]
+For a \( (1 - \alpha) \) confidence interval, we have:
+\begin{align*}
+1 - \alpha &= P\left(-z_{\alpha/2} \leq Z \leq z_{\alpha/2}\right) \\
+&= P\left(-z_{\alpha/2} \leq \frac{\overline{X} - \lambda}{\sqrt{\frac{\lambda}{n}}} \leq z_{\alpha/2}\right) \\
+&\approx P\left(-z_{\alpha/2} \leq \frac{\overline{X} - \lambda}{\sqrt{\frac{\bar{X}}{n}}} \leq z_{\alpha/2}\right) \\
+&\approx P\left(\overline{X} - z_{\alpha/2}\sqrt{\frac{\bar{X}}{n}} \leq \lambda \leq \overline{X} + z_{\alpha/2}\sqrt{\frac{\bar{X}}{n}}\right)
+\end{align*}
+$\therefore$ an approximate \( (1 - \alpha) \) confidence interval for \( \lambda \) is:
+\[
+\left(\overline{X} - z_{\alpha/2}\sqrt{\frac{\overline{X}}{n}}, \ \overline{X} + z_{\alpha/2}\sqrt{\frac{\overline{X}}{n}}\right)
+\]
+
+\subsection*{(c)}
+
+Given that:
+\[
+\overline{X} = 1.5, \quad S^2 = 4, \quad n = 36
+\]
+For a 95\% confidence interval, \( z_{\alpha/2} = z_{0.025} = 1.96 \). Using the approximate confidence interval from part (b):
+\[
+\lambda \in \left(1.5 - 1.96 \times \sqrt{\frac{1.5}{36}}, \ 1.5 + 1.96 \times \sqrt{\frac{1.5}{36}}\right)
+\]
+\[
+\Rightarrow \lambda \in \left(1.099916675, 1.900083325\right)
+\]
+\[
+\Rightarrow \lambda \in \left(1.10, 1.90\right)
+\]
+
+\section*{Q2}
+
+\subsection*{(a)}
+
+As $X_i \sim U(0, \theta)$, $Pr(X_i \leq x) = \frac{x}{\theta}$ for $0 \leq x \leq \theta$. Since $X_1,X_2,\ldots,X_n \overset{\text{iid}}{\sim} U(0, \theta)$,
+\begin{align*}
+Pr(X_{(n)} \leq x) &= Pr(X_1 \leq x, X_2 \leq x, \ldots, X_n \leq x) \\
+&= (\frac{x}{\theta})^n \quad \text{for } 0 \leq x \leq \theta \\
+Pr(\frac{X_{(n)}}{\theta} \leq \frac{x}{\theta}) &= (\frac{x}{\theta})^n \quad \text{for } 0 \leq x \leq \theta \\
+Pr((\frac{X_{(n)}}{\theta})^n \leq (\frac{x}{\theta})^n) &= (\frac{x}{\theta})^n \quad \text{for } 0 \leq x \leq \theta \\
+\text{Let } U &= (\frac{X_{(n)}}{\theta})^n, \\
+Pr(U \leq u) &= u \quad \text{for } 0 \leq u \leq 1 \\
+&= F_U(u) \quad \text{which is strictly increasing} \\
+f_U(u) &= \frac{d}{du} F_U(u) = 1 \quad \text{for } 0 \leq u \leq 1 \\
+\therefore U &\sim U(0, 1)
+\end{align*}
+As $U = (\frac{X_{(n)}}{\theta})^n$ does not depend on the unknown parameter $\theta$. \\
+$\therefore$ $(\frac{X_{(n)}}{\theta})^n$ is a pivotal variable for $X_{(n)}$.
+
+\subsection*{(b)}
+
+Since $U = (\frac{X_{(n)}}{\theta})^n \sim U(0, 1)$, we can calculate the confidence interval for $\theta$:
+\begin{align*}
+1 - \alpha &= Pr\left(\frac{\alpha}{2} \leq U \leq 1 - \frac{\alpha}{2}\right) \\
+&= Pr\left(\frac{\alpha}{2} \leq (\frac{X_{(n)}}{\theta})^n \leq 1 - \frac{\alpha}{2}\right) \\
+&= Pr\left((\frac{\alpha}{2})^{1/n} \leq \frac{X_{(n)}}{\theta} \leq (1 - \frac{\alpha}{2})^{1/n}\right) \\
+&= Pr\left(\frac{(\frac{a}{2})^{1/n}}{X_{(n)}} \leq \frac{1}{\theta} \leq \frac{(1 - \frac{\alpha}{2})^{1/n}}{X_{(n)}}\right) \\
+&= Pr\left(\frac{X_{(n)}}{(1 - \frac{\alpha}{2})^{1/n}} \leq \theta \leq \frac{X_{(n)}}{(\frac{\alpha}{2})^{1/n}}\right)
+\end{align*}
+
+Therefore, the \( (1 - \alpha) \) confidence interval for \( \theta \) is:
+\[
+\left(\frac{X_{(n)}}{(1 - \frac{\alpha}{2})^{1/n}}, \ \frac{X_{(n)}}{(\frac{\alpha}{2})^{1/n}}\right)
+\]
+
+\section*{Q3}
+
+\subsection*{(i)}
+
+Since $X_1, X_2, \ldots, X_n \overset{\text{iid}}{\sim} N(\mu, \sigma^2)$, we construct a pivotal quantity for $\sigma^2$: $T = \frac{nS^2}{\sigma^2} \sim \chi^2_{n-1}$. \\
+We have:
+\begin{align*}
+1-\alpha &= Pr\left(\chi^2_{1-\alpha/2, df=n-1} \leq \frac{nS^2}{\sigma^2} \leq \chi^2_{\alpha/2, df=n-1}\right) \\
+&= Pr\left(\frac{nS^2}{\chi^2_{\alpha/2, df=n-1}} \leq \sigma^2 \leq \frac{nS^2}{\chi^2_{1-\alpha/2, df=n-1}}\right) \\
+&= Pr\left(\frac{\sqrt{n}S}{\sqrt{\chi^2_{\alpha/2, df=n-1}}} \leq \sigma \leq \frac{\sqrt{n}S}{\sqrt{\chi^2_{1-\alpha/2, df=n-1}}}\right) \\
+\text{Given that } 1-\alpha &= Pr(\frac{\sqrt{n}S}{\sqrt{b}} \leq \sigma \leq \frac{\sqrt{n}S}{\sqrt{a}}), \text{We have } a = \chi^2_{1-\alpha/2, df=n-1}, b = \chi^2_{\alpha/2, df=n-1}, \\
+\text{So, } G(b) - G(a) &= F_{\chi^2_{n-1}}(b) - F_{\chi^2_{n-1}}(a) \\
+\text{Since } 1 - \alpha/2 & \text{ is a tail probability}, F_{\chi^2_{n-1}}(a) = \alpha/2, F_{\chi^2_{n-1}}(b) = 1 - \alpha/2 \\
+G(b) - G(a) &= (1 - \alpha/2) - (\alpha/2) = 1 - \alpha
+\end{align*}
+
+\subsection*{(ii)}
+Given that $1 - \alpha = Pr(\frac{\sqrt{n}S}{\sqrt{b}} \leq \sigma \leq \frac{\sqrt{n}S}{\sqrt{a}}) = Pr(\frac{1}{\sqrt{a}} \leq \frac{\sigma}{\sqrt{n}S} \leq \frac{1}{\sqrt{b}})$, we let $Y = \frac{\sigma}{\sqrt{n}S}$. \\
+Since $T = \frac{nS^2}{\sigma^2} \sim \chi^2_{n-1}$, $Y =\frac{1}{\sqrt{T}} \Rightarrow T = \frac{1}{Y^2}$. Note that $Y$ has a hump-shaped curve similar to normal distribution. \\
+To minimize $k = \frac{\sqrt{n}S}{\sqrt{a}} - \frac{\sqrt{n}S}{\sqrt{b}}$, we will minimize $\frac{1}{\sqrt{a}} - \frac{1}{\sqrt{b}}$, which is minimized when $f_Y(\frac{1}{\sqrt{a}}) = f_Y(\frac{1}{\sqrt{b}})$ and $F_Y(\frac{1}{\sqrt{b}}) - F_Y(\frac{1}{\sqrt{a}}) = 1 - \alpha$. \\
+Expressing $f_Y$ in terms of $f_T$: $f_Y(y) = f_T(t) \ | \frac{dt}{dy} | = f_T(t) \times \frac{1}{2}y^{-3}$. \\
+As $\frac{1}{(\frac{1}{\sqrt{a}})^2} = a, \frac{1}{(\frac{1}{\sqrt{b}})^2} = b$, we have:
+\begin{align*}
+f_Y(\frac{1}{\sqrt{a}}) &= f_Y(\frac{1}{\sqrt{b}}) \\
+f_T(a) \times \frac{1}{2}(a^{-\frac{1}{2}})^{-3} &= f_T(b) \times \frac{1}{2}(b^{-\frac{1}{2}})^{-3} \\
+\frac{1}{2^{(n-1)/2}\Gamma(\frac{n-1}{2})}a^{(n-3)/2}e^{-a/2} \times \frac{1}{2}a^{3/2} &= \frac{1}{2^{(n-1)/2}\Gamma(\frac{n-1}{2})}b^{(n-3)/2}e^{-b/2} \times \frac{1}{2}b^{3/2} \\
+a^{(n-3)/2}e^{-a/2} \times a^{3/2} &= b^{(n-3)/2}e^{-b/2} \times b^{3/2} \\
+a^{n/2}e^{-a/2} - b^{n/2}e^{-b/2} &= 0
+\end{align*}
+
+\section*{Q4}
+
+\subsection*{(a)}
+
+\[
+\begin{array}{|c|c|c|c|}
+\hline
+\text{Man} & X_i & Y_i & W_i = Y_i - X_i \\
+\hline
+1 & 120 & 128 & 8 \\
+2 & 124 & 131 & 7 \\
+3 & 130 & 131 & 1 \\
+4 & 118 & 127 & 9 \\
+5 & 140 & 132 & -8 \\
+6 & 128 & 125 & -3 \\
+7 & 140 & 141 & 1 \\
+8 & 135 & 137 & 2 \\
+9 & 126 & 118 & -8 \\
+10 & 130 & 132 & 2 \\
+11 & 126 & 129 & 3 \\
+12 & 127 & 135 & 8 \\
+\hline
+\end{array}
+\]
+\[
+\overline{W} = \frac{\sum_{i=1}^{12} W_i}{12} = \frac{8 + 7 + 1 + 9 - 8 - 3 + 1 + 2 - 8 + 2 + 3 + 8}{12} = \frac{22}{12} \approx 1.833333
+\]
+\[
+S_W = \sqrt{\frac{\sum_{i=1}^{12} (W_i - \overline{W})^2}{12}} \approx \sqrt{\frac{373.6666667}{12}} \approx 5.580223
+\]
+We want to construct a 95$\%$ confidence interval for $\mu_X - \mu_Y$, which is same as $-\mu_W$. \\
+We construct a pivotal quantity for $W$, which is $T = \frac{\overline{W} - \mu_W}{S_W/\sqrt{n-1}} \sim t_{n-1}$. \\
+Given that $n=12$, $1-\alpha=95\% \Rightarrow \alpha = 0.05$, the confidence interval is
+\begin{align*}
+1 - \alpha &= Pr(-t_{\alpha/2, df=n-1} \leq T \leq t_{\alpha/2, df=n-1}) \\
+&= Pr(-t_{0.025, 11} \leq \frac{\overline{W} - \mu_W}{S_W/\sqrt{n-1}} \leq t_{0.025, 11}) \\
+&\approx Pr(-2.201 \leq \frac{1.833333 - \mu_W}{5.580223/\sqrt{11}} \leq 2.201) \\
+&= Pr(-2.201 \times \frac{5.580223}{\sqrt{11}} \leq 1.833333 - \mu_W \leq 2.201 \times \frac{5.580223}{\sqrt{11}}) \\
+&= Pr(-2.201 \times \frac{5.580223}{\sqrt{11}} - 1.833333 \leq -\mu_W \leq 2.201 \times \frac{5.580223}{\sqrt{11}} - 1.833333) \\
+&= Pr(-5.536517 \leq -\mu_W \leq 1.869851)
+\end{align*}
+$\therefore$ the 95$\%$ confidence interval for $\mu_X - \mu_Y$ is $(-5.537, 1.870)$ (correct to 3 d.p.). \\
+If the stimulus is effective, we expect $\mu_W \neq 0$. Since $0 \in (-5.536517, 1.869851)$, we cannot reject the null hypothesis that the stimulus is ineffective. \\
+Therefore, I don't think the stimulus has an effect on the blood pressure.
+
+\subsection*{(b)}
+
+From (a), we have $S_W = 5.580223$, $S_W^2 = 31.138889$, $n=12$, $1-\alpha=95\% \Rightarrow \alpha = 0.05$. \\
+since $\frac{nS_W^2}{\sigma_W^2} \sim \chi^2_{n-1}$, the 95$\%$ confidence interval for $\sigma_W^2$ is
+\begin{align*}
+1 - \alpha &= Pr(\chi^2_{1-\alpha/2, df=n-1} \leq \frac{nS_W^2}{\sigma_W^2} \leq \chi^2_{\alpha/2, df=n-1}) \\
+&= Pr(\chi^2_{0.975, 11} \leq \frac{12 \times 31.138889}{\sigma_W^2} \leq \chi^2_{0.025, 11}) \\
+&=\approx Pr(3.816 \leq \frac{373.666668}{\sigma_W^2} \leq 21.920) \\
+&= Pr(17.046837 \leq \sigma_W^2 \leq 97.921035) \\
+&= Pr(4.128782 \leq \sigma_W \leq 9.895506)
+\end{align*}
+$\therefore$ The 95$\%$ confidence interval for $\sigma_W$ is $(4.129, 9.896)$ (correct to 3 d.p.).
+
+\section*{Q5}
+
+\subsection*{(i)}
+
+Given that $n_X = 13$, $s_X^2 = 9.88$, \\
+since $\frac{n_{X} s_{X}^2}{\sigma_x^2} \sim \chi_{n_X - 1}^2$ is a pivotal quantity around $\sigma_X^2$, we have:
+\begin{align*}
+1 - \alpha &= Pr(\chi_{1-\alpha/2, df=n_X - 1}^2 \leq \frac{n_{X} s_{X}^2}{\sigma_x^2} \leq \chi_{\alpha/2, df=n_X - 1}^2) \\
+&= Pr(\chi_{0.975, 12}^2 \leq \frac{13 \times 9.88}{\sigma_X^2} \leq \chi_{0.025, 12}^2) \\
+&= Pr(4.404 \leq \frac{128.44}{\sigma_X^2} \leq 23.337) \\
+&= Pr(5.503707 \leq \sigma_X^2 \leq 29.164396)
+\end{align*}
+$\therefore$ the 95$\%$ confidence interval for $\sigma_X^2$ is $(5.504, 29.164)$ (correct to 3 d.p.).
+\subsection*{(ii)}
+
+Given that $n_X = 13$, $s_X^2 = 9.88$, $n_Y = 9$, $s_Y^2 = 4.08$, $1-\alpha=95\% \Rightarrow \alpha = 0.05$, \\
+the pivotal quantity for $\sigma_X^2$ is $\frac{n_{X} s_{X}^2}{\sigma_x^2} \sim \chi_{n_X - 1}^2 \Rightarrow \frac{13 s_X^2}{\sigma_X^2} \sim \chi_{12}^2$, \\
+and the pivotal quantity for $\sigma_Y^2$ is $\frac{n_{Y} s_{Y}^2}{\sigma_Y^2} \sim \chi_{n_Y - 1}^2 \Rightarrow \frac{9 s_Y^2}{\sigma_Y^2} \sim \chi_{8}^2$. \\
+the pivotal quantity for $\frac{\sigma_X^2}{\sigma_Y^2}$ is $\frac{\frac{n_{Y} s_{Y}^2}{\sigma_Y^2}/(n_Y - 1)}{\frac{n_{X} s_{X}^2}{\sigma_X^2}/(n_X - 1)} \sim F_{n_Y - 1, n_X - 1} \Rightarrow \frac{\frac{9 s_Y^2}{\sigma_Y^2}/8}{\frac{13 s_X^2}{\sigma_X^2}/12} \sim F_{8, 12}$. \\
+We have:
+\begin{align*}
+1 - \alpha &= Pr(F_{1-\alpha/2, df_1=8, df_2=12} \leq \frac{\frac{9 s_Y^2}{\sigma_Y^2}/8}{\frac{13 s_X^2}{\sigma_X^2}/12} \leq F_{\alpha/2, df_1=8, df_2=12}) \\
+\text{Since } & F_{0.975, df1=8, df2=12} = 0.23811409, F_{0.025, df1=8, df2=12} = 3.51177674, \\
+&\approx Pr(0.23811409 \leq \frac{\frac{9 \times 4.08}{\sigma_Y^2}/8}{\frac{13 \times 9.88}{\sigma_X^2}/12} \leq 3.51177674) \\
+&= Pr(0.23811409 \leq \frac{4.59}{\sigma_Y^2} \times \frac{300\sigma_X^2}{3211} \leq 3.51177674) \\
+&= Pr(0.555253698 \leq \frac{\sigma_X^2}{\sigma_Y^2} \leq 8.189045107)
+\end{align*}
+Therefore, the 95$\%$ confidence interval for $\frac{\sigma_X^2}{\sigma_Y^2}$ is $(0.555, 8.189)$ (correct to 3 d.p.).
+\end{document}
