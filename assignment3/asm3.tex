@@ -12,6 +12,23 @@
 
 % For displaying accurate time
 \usepackage{datetime}
+% For PDF metadata
+\usepackage[pdfusetitle]{hyperref}
+% For outline
+\usepackage{navigator}
+% Automatically add section to outline
+\newcommand{\mysectionstar}[2][]{%
+    \ifthenelse{\equal{#1}{}}%
+        {\section*{#2}}% If optional argument is empty
+        {\section*[#1]{#2}}% If optional argument is not empty
+    \outline{1}{#2}%
+}
+\newcommand{\mysubsectionstar}[2][]{%
+    \ifthenelse{\equal{#1}{}}%
+        {\subsection*{#2}}% If optional argument is empty
+        {\subsection*[#1]{#2}}% If optional argument is not empty
+    \outline{2}{#2}%
+}
 
 \title{STAT2602 Assignment 3}
 \author{Cheng Ho Ming, Eric (3036216734) [Section 1A, 2024]}
@@ -20,9 +37,9 @@
 \begin{document}
 \maketitle
 
-\section*{Q1}
+\mysectionstar{Q1}
 
-\subsection*{(a)}
+\mysubsectionstar{(a)}
 
 Since \( X_i \sim \text{Poisson}(\lambda) \), we have \( \mathbb{E}(X_i) = \lambda \) and \( \text{Var}(X_i) = \lambda \). \\
 For large \( n \), by the Central Limit Theorem, the sample mean \( \overline{X} = \frac{1}{n}\sum_{i=1}^n X_i \) is approximately normally distributed:
@@ -35,7 +52,7 @@ Z = \frac{\overline{X} - \lambda}{\sqrt{\frac{\lambda}{n}}} \sim N(0,1)
 \]
 which its distribution does not depend on the unknown parameter \( \lambda \).
 
-\subsection*{(b)}
+\mysubsectionstar{(b)}
 
 From (a), we have:
 \[
@@ -57,7 +74,7 @@ $\therefore$ an approximate \( (1 - \alpha) \) confidence interval for \( \lambd
 \left(\overline{X} - z_{\alpha/2}\sqrt{\frac{\overline{X}}{n}}, \ \overline{X} + z_{\alpha/2}\sqrt{\frac{\overline{X}}{n}}\right)
 \]
 
-\subsection*{(c)}
+\mysubsectionstar{(c)}
 
 Given that:
 \[
@@ -74,9 +91,9 @@ For a 95\% confidence interval, \( z_{\alpha/2} = z_{0.025} = 1.96 \). Using the
 \Rightarrow \lambda \in \left(1.10, 1.90\right)
 \]
 
-\section*{Q2}
+\mysectionstar{Q2}
 
-\subsection*{(a)}
+\mysubsectionstar{(a)}
 
 As $X_i \sim U(0, \theta)$, $Pr(X_i \leq x) = \frac{x}{\theta}$ for $0 \leq x \leq \theta$. Since $X_1,X_2,\ldots,X_n \overset{\text{iid}}{\sim} U(0, \theta)$,
 \begin{align*}
@@ -93,7 +110,7 @@ f_U(u) &= \frac{d}{du} F_U(u) = 1 \quad \text{for } 0 \leq u \leq 1 \\
 As $U = (\frac{X_{(n)}}{\theta})^n$ does not depend on the unknown parameter $\theta$. \\
 $\therefore$ $(\frac{X_{(n)}}{\theta})^n$ is a pivotal variable for $X_{(n)}$.
 
-\subsection*{(b)}
+\mysubsectionstar{(b)}
 
 Since $U = (\frac{X_{(n)}}{\theta})^n \sim U(0, 1)$, we can calculate the confidence interval for $\theta$:
 \begin{align*}
@@ -109,9 +126,9 @@ Therefore, the \( (1 - \alpha) \) confidence interval for \( \theta \) is:
 \left(\frac{X_{(n)}}{(1 - \frac{\alpha}{2})^{1/n}}, \ \frac{X_{(n)}}{(\frac{\alpha}{2})^{1/n}}\right)
 \]
 
-\section*{Q3}
+\mysectionstar{Q3}
 
-\subsection*{(i)}
+\mysubsectionstar{(i)}
 
 Since $X_1, X_2, \ldots, X_n \overset{\text{iid}}{\sim} N(\mu, \sigma^2)$, we construct a pivotal quantity for $\sigma^2$: $T = \frac{nS^2}{\sigma^2} \sim \chi^2_{n-1}$. \\
 We have:
@@ -125,7 +142,7 @@ We have:
 G(b) - G(a) &= (1 - \alpha/2) - (\alpha/2) = 1 - \alpha
 \end{align*}
 
-\subsection*{(ii)}
+\mysubsectionstar{(ii)}
 Given that $1 - \alpha = Pr(\frac{\sqrt{n}S}{\sqrt{b}} \leq \sigma \leq \frac{\sqrt{n}S}{\sqrt{a}}) = Pr(\frac{1}{\sqrt{a}} \leq \frac{\sigma}{\sqrt{n}S} \leq \frac{1}{\sqrt{b}})$, we let $Y = \frac{\sigma}{\sqrt{n}S}$. \\
 Since $T = \frac{nS^2}{\sigma^2} \sim \chi^2_{n-1}$, $Y =\frac{1}{\sqrt{T}} \Rightarrow T = \frac{1}{Y^2}$. Note that $Y$ has a hump-shaped curve similar to normal distribution. \\
 To minimize $k = \frac{\sqrt{n}S}{\sqrt{a}} - \frac{\sqrt{n}S}{\sqrt{b}}$, we will minimize $\frac{1}{\sqrt{a}} - \frac{1}{\sqrt{b}}$, which is minimized when $f_Y(\frac{1}{\sqrt{a}}) = f_Y(\frac{1}{\sqrt{b}})$ and $F_Y(\frac{1}{\sqrt{b}}) - F_Y(\frac{1}{\sqrt{a}}) = 1 - \alpha$. \\
@@ -139,9 +156,9 @@ a^{(n-3)/2}e^{-a/2} \times a^{3/2} &= b^{(n-3)/2}e^{-b/2} \times b^{3/2} \\
 a^{n/2}e^{-a/2} - b^{n/2}e^{-b/2} &= 0
 \end{align*}
 
-\section*{Q4}
+\mysectionstar{Q4}
 
-\subsection*{(a)}
+\mysubsectionstar{(a)}
 
 \[
 \begin{array}{|c|c|c|c|}
@@ -184,7 +201,7 @@ $\therefore$ the 95$\%$ confidence interval for $\mu_X - \mu_Y$ is $(-5.537, 1.8
 If the stimulus is effective, we expect $\mu_W \neq 0$. Since $0 \in (-5.536517, 1.869851)$, we cannot reject the null hypothesis that the stimulus is ineffective. \\
 Therefore, I don't think the stimulus has an effect on the blood pressure.
 
-\subsection*{(b)}
+\mysubsectionstar{(b)}
 
 From (a), we have $S_W = 5.580223$, $S_W^2 = 31.138889$, $n=12$, $1-\alpha=95\% \Rightarrow \alpha = 0.05$. \\
 since $\frac{nS_W^2}{\sigma_W^2} \sim \chi^2_{n-1}$, the 95$\%$ confidence interval for $\sigma_W^2$ is
@@ -197,9 +214,9 @@ since $\frac{nS_W^2}{\sigma_W^2} \sim \chi^2_{n-1}$, the 95$\%$ confidence inter
 \end{align*}
 $\therefore$ The 95$\%$ confidence interval for $\sigma_W$ is $(4.129, 9.896)$ (correct to 3 d.p.).
 
-\section*{Q5}
+\mysectionstar{Q5}
 
-\subsection*{(i)}
+\mysubsectionstar{(i)}
 
 Given that $n_X = 13$, $s_X^2 = 9.88$, \\
 since $\frac{n_{X} s_{X}^2}{\sigma_x^2} \sim \chi_{n_X - 1}^2$ is a pivotal quantity around $\sigma_X^2$, we have:
@@ -210,7 +227,7 @@ since $\frac{n_{X} s_{X}^2}{\sigma_x^2} \sim \chi_{n_X - 1}^2$ is a pivotal quan
 &= Pr(5.503707 \leq \sigma_X^2 \leq 29.164396)
 \end{align*}
 $\therefore$ the 95$\%$ confidence interval for $\sigma_X^2$ is $(5.504, 29.164)$ (correct to 3 d.p.).
-\subsection*{(ii)}
+\mysubsectionstar{(ii)}
 
 Given that $n_X = 13$, $s_X^2 = 9.88$, $n_Y = 9$, $s_Y^2 = 4.08$, $1-\alpha=95\% \Rightarrow \alpha = 0.05$, \\
 the pivotal quantity for $\sigma_X^2$ is $\frac{n_{X} s_{X}^2}{\sigma_x^2} \sim \chi_{n_X - 1}^2 \Rightarrow \frac{13 s_X^2}{\sigma_X^2} \sim \chi_{12}^2$, \\
